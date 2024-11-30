@@ -55,7 +55,6 @@ public class JournalServlet extends HttpServlet {
         }
         // 替换模板中的用户数据占位符
         String htmlContent = htmlTemplate.replace(" <!-- 图片插入在这 -->", journalHtml.toString());
-        System.out.println(htmlContent);
         // 写入响应
         writer.write(htmlContent);
 
