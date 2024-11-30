@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link href="css/login.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="loginDiv">
+    <form action="/mvn_base/loginServlet" method="post" id="form">
+        <h1 id="loginMsg">LOGIN IN</h1>
+        <p>Username:<input id="username" name="username" type="text"></p>
+
+        <p>Password:<input id="password" name="password" type="password"></p>
+
+        <div id="subDiv">
+            <input type="submit" class="button" value="login up">
+            <input type="reset" class="button" value="reset">&nbsp;&nbsp;&nbsp;
+            <a href="register.html">没有账号？点击注册</a>
+            <br>
+            <br>
+            <a href="./register.html" class="c">管理员模式</a>
+        </div>
+    </form>
+    <form action="/mvn_base/journalServlet" method="post" id="form1">
+        <input type="submit" value="确定">
+    </form>
+</div>
+</body>
+<script>
+    <!--警告-->
+</script>
+</html>
