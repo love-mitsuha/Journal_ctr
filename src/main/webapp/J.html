@@ -14,7 +14,25 @@
         </div>
         <div align="center">
            <!-- 图片插入在这 -->
+            <img src="./imgs/J001.png" alt="" id="imgchange">
         </div>
     </form>
 </body>
+<script>
+    function change(t){
+    document.getElementById('imgchange').src='./imgs/J00'+t+'.png'
+    }
+<!--输入n-->
+    let t=n
+    setInterval(function(){
+    if(t==0){
+    t=n
+    change(String(t))
+    }
+    else{
+    change(String(t))
+    t=t-1
+    }
+    },3000)
+</script>
 </html>

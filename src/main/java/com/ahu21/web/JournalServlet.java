@@ -50,11 +50,14 @@ public class JournalServlet extends HttpServlet {
         sqlSession.close();
         // 插入用户数据
         StringBuilder journalHtml = new StringBuilder();
+        int n=0;
         for (Journal j : journals) {
-            journalHtml.append("<img src=\"").append(j.getJPATH()).append("\" alt=\"\">");
+//            要写入的journal数据
+            n++;
         }
+        journalHtml.append("let n="+n);
         // 替换模板中的用户数据占位符
-        String htmlContent = htmlTemplate.replace(" <!-- 图片插入在这 -->", journalHtml.toString());
+        String htmlContent = htmlTemplate.replace("<!--输入n-->", journalHtml.toString());
         // 写入响应
         writer.write(htmlContent);
 
