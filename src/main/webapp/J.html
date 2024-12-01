@@ -1,38 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./css/J.css">
 </head>
+
 <body>
-    <form action="/mvn_base/journalServlet">
-        <div align="center">
-         <label for="JNO">搜索</label>
-        <input type="text" name="JNO" id="JNO">
-        <input type="submit" value="确定">
-        </div>
-        <div align="center">
-           <!-- 图片插入在这 -->
-            <img src="./imgs/J001.png" alt="" id="imgchange">
-        </div>
-    </form>
+
+<form action="/mvn_base/journalServlet">
+    <div class="search-box">
+        <label for="JNO">搜索</label>
+        <input type="text" name="JNO" id="JNO" class="search-input" placeholder="请输入关键词...">
+        <input type="submit" value="搜索" class="search-button">
+    </div>
+    <div align="center" class="container">
+        <!--        记得填路径-->
+        <a href="">
+            <!-- 图片插入在这 -->
+            <img src="./imgs/J001.png" alt="" id="imgchange" class="journalimg">
+        </a>
+    </div>
+</form>
 </body>
 <script>
-    function change(t){
-    document.getElementById('imgchange').src='./imgs/J00'+t+'.png'
+
+    function change(t) {
+        document.getElementById('imgchange').src = './imgs/J00' + t + '.png'
     }
-<!--输入n-->
-    let t=n
-    setInterval(function(){
-    if(t==0){
-    t=n
-    change(String(t))
+    <!--输入n-->
+    let t = n
+    let intervalId;
+    function startSwitching() {
+        intervalId = setInterval(function () {
+            if (t == 0) {
+                t = n
+                change(String(t))
+            }
+            else {
+                change(String(t))
+                t = t - 1
+            }
+        }, 2000);
     }
-    else{
-    change(String(t))
-    t=t-1
+
+    function stopSwitching() {
+        clearInterval(intervalId);
     }
-    },3000)
+
+    // 开始图片切换
+    startSwitching();
+
+    // 鼠标悬浮事件监听
+    document.getElementById('imgchange').addEventListener('mouseover', stopSwitching);
+    // 鼠标离开事件监听
+    document.getElementById('imgchange').addEventListener('mouseout', startSwitching);
 </script>
+
 </html>

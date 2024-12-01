@@ -1,0 +1,44 @@
+
+.search-box {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* 调整最大宽度 */
+    margin: 20px auto;
+  }
+  .search-input {
+    width: calc(100% - 137px); /* 输入框宽度 */
+    height: 21px;
+    padding: 10px;
+    border: 2px solid #f28a00;
+    border-radius: 5px;
+    outline: none;
+  }
+  .search-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 42px;
+    background-color: #ff9500;
+    color: white;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+  }
+  .journalimg{
+    max-width: 100%; /* 图片的最大宽度为父元素的100% */
+    height: auto; /* 高度自动调整以保持比例 */
+    display: block; /* 清除浮动 */
+  }
+  .container {
+      width: 300px; /* 假设容器宽度为300px */
+      border: 1px solid #000; /* 容器有边框以便于观察 */
+      margin: 20px auto; /* 居中对齐 */
+    }
+      #imgchange {
+      }
+      #imgchange:hover {
+        filter: brightness(0.7);
+      }
+
