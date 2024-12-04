@@ -22,7 +22,6 @@ public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username=request.getParameter("username");
         String password=request.getParameter("password");
-
         User user=new User();
         user.setMACCOUNT(username);
         user.setMPASSWORD(password);
@@ -45,8 +44,11 @@ public class RegisterServlet extends HttpServlet {
 //            提交事务（很重要）
             sqlSession.commit();
             sqlSession.close();
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write("注册成功");
         }
         else {
+            System.out.println("用户名已存在");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write("用户名已存在");
         }
