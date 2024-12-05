@@ -49,6 +49,7 @@
 
 </div>
 </body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 
     <!--    判断输入格式-->
@@ -89,28 +90,45 @@
             return flag
         }
         //是否允许提交
-        document.getElementById("reg-form").onsubmit=function(){
-            return checkpass()&&checkname()
-        }
-    // 判断是否成功
-    document.getElementById("reg_btn").onclick=function(){
-     var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-       // 获取对象
-      const xhttp = new XMLHttpRequest();
-    // 设置请求方法和URL，并附加查询参数
-    xhttp.open("POST", "http://localhost:8080/mvn_base/registerServlet?username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
 
-    // 发送请求
-    xhttp.send();
-    //   回调函数，this.respansetext为响应输入
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            let sp=document.getElementById("finalspan")
-            sp.innerHTML=this.responseText
-            sp.style.display='block'
-        }
-      }
-     }
+
+
+ // 判断是否成功
+    document.getElementById("reg_btn").onclick=function(){
+    //判断是否符合要求
+    if(checkpass()&&checkname()){
+<!--     var username = document.getElementById("username").value;-->
+<!--    var password = document.getElementById("password").value;-->
+<!--       // 获取对象-->
+<!--      const xhttp = new XMLHttpRequest();-->
+<!--    // 设置请求方法和URL，并附加查询参数-->
+<!--    xhttp.open("POST", "http://localhost:8080/mvn_base/registerServlet?username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));-->
+
+<!--    // 发送请求-->
+<!--    xhttp.send();-->
+<!--    //   回调函数，this.respansetext为响应输入-->
+<!--    xhttp.onreadystatechange = function() {-->
+<!--        if (this.readyState == 4 && this.status == 200) {-->
+<!--            let sp=document.getElementById("finalspan")-->
+<!--            sp.innerHTML=this.responseText-->
+<!--            sp.style.display='block'-->
+<!--            alert(this.responseText)-->
+<!--        }-->
+<!--      }-->
+var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        // 相当于对ajax代码的简写
+        axios({
+            method: "post",
+            url: "http://localhost:8080/mvn_base/registerServlet?username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password)
+        }).then(function (resp) {
+                let sp = document.getElementById("finalspan")
+                sp.innerHTML = resp.data
+                sp.style.display = 'block'
+                alert(resp.data)
+        })
+    }
+}
 </script>
 </html>
