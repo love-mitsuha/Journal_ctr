@@ -16,10 +16,10 @@ public interface ManagerMapper {
 
 //	用户查询
     @Select("select * from MANAGER where MACCOUNT=#{username}")
-	User selectByUsername(@Param("username") String username);
+	Manager selectByUsername(@Param("username") String username);
 
 	@Insert("insert into MANAGER values(#{MACCOUNT},#{MPASSWORD})")
-	void add(User user);
+	void add(Manager manager);
 
 	@Select("select * from MANAGER")
 	List<Manager> selectall();
