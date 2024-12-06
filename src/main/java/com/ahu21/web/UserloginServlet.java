@@ -39,35 +39,23 @@ public class UserloginServlet extends HttpServlet {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 //      2.
         SqlSession sqlSession = sqlSessionFactory.openSession();
-//		3.
-        ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
-//		4.
-        Manager user = managerMapper.select(username, password);
-//        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+////		3.
+//        ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
 ////		4.
-//        User user = userMapper.select(username, password);
+//        Manager user = managerMapper.select(username, password);
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+//		4.
+        User user = userMapper.select(username, password);
 //		 5.
-
+        sqlSession.close();
         response.setContentType("text/html;charset=utf-8");
         PrintWriter writer = response.getWriter();
 
         if (user != null) {
             ServletContext context = getServletContext(); // 获取ServletContext对象
-            String htmlTemplate = readFile(context, "/userlist.html");
-            List<Manager> users= managerMapper.selectall();
-            sqlSession.close();
-            // 插入用户数据
-            StringBuilder usersHtml = new StringBuilder();
-            for (Manager u : users) {
-                usersHtml.append("<tr>")
-                        .append("<td>").append(u.getMACCOUNT()).append("</td>")
-                        .append("<td>").append(u.getMPASSWORD()).append("</td>")
-                        .append("</tr>");
-            }
-            // 替换模板中的用户数据占位符
-            String htmlContent = htmlTemplate.replace("<!-- 用户数据将在这里插入 -->", usersHtml.toString());
-            // 写入响应
-            writer.write(htmlContent);
+            String htmlTemplate = readFile(context, "/login.html");
+            String htmlContent = htmlTemplate.replace("<!--警告-->", "location.href=\"./J.html\"");
+            response.getWriter().write(htmlContent);
         }
         else{
             ServletContext context = getServletContext(); // 获取ServletContext对象
