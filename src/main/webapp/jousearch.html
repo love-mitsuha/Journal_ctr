@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Journal List</h2>
+<input type="text" id="serch">
+<input type="button" id="ok" value="搜索">
+<br>
+<table id="journalTable">
+    <thead>
+    <tr>
+        <th>JNO</th>
+        <th>JNAME</th>
+        <th>JPOST</th>
+        <th>JYEAR</th>
+        <th>JPUBLISH</th>
+        <th>JTYPE</th>
+        <th>JCATEGORYNO</th>
+        <th>JCATEGORYNAME</th>
+        <th>JJUAN</th>
+        <th>JQI</th>
+        <th>JPLACE</th>
+        <th>JPATH</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Journals will be added here dynamically -->
+    </tbody>
+</table>
+<script>
+    function fetchJournals() {
+        let j=document.getElementById("serch").value
+        const tableBody = document.getElementById('journalTable').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML='';
+        axios({
+                    method: "post",
+                    url: "http://localhost:8080/mvn_base/jousearchServlet?j="+encodeURIComponent(j)
+                }).then(function (response) {
+                const journals = response.data;
+
+                journals.forEach(journal => {
+                    const row = tableBody.insertRow();
+                    Object.values(journal).forEach(text => {
+                        const cell = row.insertCell();
+                        cell.textContent = text;
+                    });
+                    // Add delete button
+                    const deleteCell = row.insertCell();
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = function() {
+                        deleteJournal(journal.JNO);
+                    };
+                    deleteCell.appendChild(deleteButton);
+                });
+            })
+            .catch(function (error) {
+                console.error('Error fetching journals:', error);
+            });
+    }
+
+    function deleteJournal(jno) {
+        axios.delete(`/api/journals/${jno}`)
+            .then(function () {
+                // Refresh the journal list after deletion
+                fetchJournals();
+            })
+            .catch(function (error) {
+                console.error('Error deleting journal:', error);
+            });
+    }
+
+    // Fetch journals when the page loads
+    document.getElementById("ok").onclick=fetchJournals
+</script>
+
+</body>
+</html>

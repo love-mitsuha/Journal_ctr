@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="./css/managerlog.css">
+</head>
+<body>
+
+<div class="login-container">
+    <h1>
+        管理员模式
+    </h1>
+    <form class="login-form" action="/login" method="post">
+        <h2>登录</h2>
+        <p>账号:<input id="username" name="username" type="text" placeholder="请输入账号"></p>
+        <p>密码:<input id="password" name="password" type="password" placeholder="请输入密码"></p>
+        <div id="subDiv">
+            <input type="button" class="button" value="登录" id="login">
+        </div>
+    </form>
+</div>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+// 判断是否成功
+document.getElementById("login").onclick = function () {
+    let username=document.getElementById("username").value
+    let password=document.getElementById("password").value
+            // 相当于对ajax代码的简写
+            axios({
+                method: "post",
+                url: "http://localhost:8080/mvn_base/loginServlet?username="+ encodeURIComponent(username) + "&password=" + encodeURIComponent(password)
+            }).then(function (resp) {
+                if(resp.data=="成功")
+                {location.href="./userlist.html"}
+                else{
+                alert(resp.data)
+                }
+            })
+
+    }
+</script>
+</html>
