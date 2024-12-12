@@ -23,6 +23,6 @@ public interface JournalMapper {
     @Update("UPDATE JOURNAL SET JNAME = 'JNAME',JPOST = 'JPOST',JYEAR = 'JYEAR',JPUBLISH = 'JPUBLISH',JCATEGORYNAME = 'JCATEGORYNAME',JJUAN = 'JUAN',JQI = 'JQI',JPLACE = 'JPLACE',JPATH = 'JPATH' WHERE JNO=#{JNO}")
     void updata(Journal journal);
 
-    @Insert("insert into JOURNAL values(#{JNO}, #{JNAME}, #{JPOST}, #{JYEAR}, #{JPUBLISH}, #{JTYPE}, #{JCATEGORYNAME}, #{JJUAN}, #{JQI}, #{JPLACE}, #{JPATH})")
+    @Insert("INSERT INTO JOURNAL VALUES (#{JNO}, #{JNAME}, #{JPOST}, #{JYEAR}, #{JPUBLISH}, #{JTYPE}, #{JCATEGORYNAME}, #{JJUAN}, #{JQI}, #{JPLACE}, #{JPATH})")
     void insert(Journal journal);
 }

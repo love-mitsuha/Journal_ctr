@@ -2,16 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal List</title>
-    <!-- 引入Element Plus样式 -->
+    <title>Title</title>
     <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
-    <style>
-        h2{
-          text-align: center;
-          color: rgba(49, 76, 229, 0.8);
-      }
-    </style>
 </head>
 <body>
 <div id="app" class="common-layout">
@@ -20,11 +12,10 @@
             <p v-model="username">欢迎，{{username}}</p>
         </el-header>
         <el-main>
-            <h2>期刊</h2>
+            <h2>借阅信息</h2>
             <el-input v-model="search" placeholder="可以通过名字类别" style="width: 200px;"></el-input>
             <el-button type="primary" @click="searchJournal">搜索</el-button>
-            <el-button type="primary" @click="lookborrow">查看我的借阅信息</el-button>
-            <el-button type="primary" @click="outlogin" style="margin-left: 90%;">退出登录</el-button>
+            <el-button type="primary" @click="outlogin" style="margin-left: 90%;">退出查看</el-button>
             <br>
             <el-table :data="brands" style="width: 100%">
                 <el-table-column prop="jPATH" label="图片">
@@ -34,47 +25,37 @@
                 </el-table-column>
                 <el-table-column prop="jNO" label="期刊编号"></el-table-column>
                 <el-table-column prop="jNAME" label="期刊名称"></el-table-column>
-                <el-table-column prop="jPOST" label="邮政编码"></el-table-column>
-                <el-table-column prop="jYEAR" label="期刊年份"></el-table-column>
-                <el-table-column prop="jPUBLISH" label="出版方"></el-table-column>
                 <el-table-column prop="jTYPE" label="出版周期"></el-table-column>
                 <el-table-column prop="jCATEGORYNAME" label="期刊类型"></el-table-column>
                 <el-table-column prop="jJUAN" label="期刊卷号"></el-table-column>
                 <el-table-column prop="jQI" label="期刊期号"></el-table-column>
                 <el-table-column prop="jPLACE" label="馆藏地"></el-table-column>
-
-                <el-table-column label="借阅">
-                    <template #default="scope">
-                        <el-button type="primary" @click="Journal(scope.row)">借阅</el-button>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="bdate" label="借阅日期"></el-table-column>
+                <el-table-column prop="accept" label="审核状态"></el-table-column>
             </el-table>
         </el-main>
     </el-container>
 </div>
+</body>
 
 <script src="https://unpkg.com/vue@3"></script>
 <script src="https://unpkg.com/element-plus"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     const { createApp } = Vue;
-    const app = createApp({
+   const app = createApp({
         data() {
             return {
                 brands: [],
-                search: '',
                 username: '',
-            BorrowJournal: {
-                jNO: '',
-                uACCOUNT: '',
-                bdate: '',
-                accept: ''
-            },
             }
         },
         methods: {
+            outlogin() {
+                window.location.href = "Usermain.html?username="+this.username;
+            },
             searchJournal() {
-                axios.get('http://localhost:8080/mvn_base/jousearchServlet?j=' + this.search)
+            axios.get('http://localhost:8080/mvn_base/jousearchServlet?username='+encodeURIComponent(this.username)+'&search='+encodeURIComponent(this.search))
                     .then(response => {
                         console.log(response.data);
                         this.brands = response.data;
@@ -82,35 +63,11 @@
                     .catch(error => {
                         console.log(error);
                     })
-            },
-            Journal(brand) {
-            this.BorrowJournal.jNO = brand.jNO;
-            this.BorrowJournal.uACCOUNT = this.username;
-            this.BorrowJournal.bdate = new Date().toLocaleDateString();
-            this.BorrowJournal.accept = "未审核";
-            axios({
-                    method: "post",
-                    url: "http://localhost:8080/mvn_base/borinsertServlet",
-                    data: this.BorrowJournal
-                }).then(function (resp) {
-                    if (resp.data == "成功") {alert("借阅成功！")}
-                    else {
-                        alert("该期刊你已借阅！")
-                    }
-                }).catch(error => {
-                        console.log(error);
-                    })
-
-            },lookborrow() {
-                location.href = "borrow.html?username=" + encodeURIComponent(this.username);
-            },
-            outlogin() {
-                location.href = "login.html";
-            }
+           },
         },
         mounted() {
-            this.username = new URLSearchParams(window.location.search).get('username')
-        axios.get('http://localhost:8080/mvn_base/journalServlet')
+            this.username = new URLSearchParams(window.location.search).get('username');
+            axios.get('http://localhost:8080/mvn_base/jousearchServlet?username='+encodeURIComponent(this.username))
                     .then(response => {
                         console.log(response.data);
                         this.brands = response.data;
@@ -118,11 +75,9 @@
                     .catch(error => {
                         console.log(error);
                     })
-        }
-    });
-
-    app.use(ElementPlus);
-    app.mount('#app');
+         }
+      })
+      app.use(ElementPlus)
+      app.mount('#app')
 </script>
-</body>
 </html>
