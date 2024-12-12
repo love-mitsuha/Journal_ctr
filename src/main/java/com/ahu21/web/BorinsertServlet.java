@@ -26,7 +26,6 @@ public class BorinsertServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String json1=request.getReader().readLine();
-
         Borrowaccept Bs1 = JSON.parseObject(json1,Borrowaccept.class);
         //		1.直接复制
         String resource = "mybatis-config.xml";
@@ -36,8 +35,10 @@ public class BorinsertServlet extends HttpServlet {
         SqlSession sqlSession=sqlSessionFactory.openSession();
 //		3.
         BorrowMapper borrowMapper = sqlSession.getMapper(BorrowMapper.class);
-        List<Borrowaccept> flag = borrowMapper.selectnull(Bs1.getJNO(),Bs1.getUACCOUNT());
+
+        Borrowaccept flag = borrowMapper.selectnull(Bs1.getJNO(),Bs1.getUACCOUNT());
         response.setContentType("text/html;charset=utf-8");
+        System.out.println(flag);
         if(flag==null){
             borrowMapper.insertba(Bs1);
             response.getWriter().write("成功");

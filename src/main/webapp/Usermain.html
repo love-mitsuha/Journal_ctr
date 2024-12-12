@@ -65,8 +65,8 @@
                 search: '',
                 username: '',
             BorrowJournal: {
+                UACCOUNT: '',
                 jNO: '',
-                uACCOUNT: '',
                 bdate: '',
                 accept: ''
             },
@@ -85,7 +85,7 @@
             },
             Journal(brand) {
             this.BorrowJournal.jNO = brand.jNO;
-            this.BorrowJournal.uACCOUNT = this.username;
+            this.BorrowJournal.UACCOUNT = this.username;
             this.BorrowJournal.bdate = new Date().toLocaleDateString();
             this.BorrowJournal.accept = "未审核";
             axios({

@@ -52,9 +52,9 @@ public class Borrowaccept {
     public String toString() {
         return "Borrow{" +
                 "UACCOUNT='" + UACCOUNT + '\'' +
-                ", JNO=" + JNO + '\'' +
-                ", BDate=" + Bdate + '\'' +
-                ", Accept=" + Accept + '\'' +
+                ", JNO='" + JNO + '\'' +
+                ", BDate='" + Bdate + '\'' +
+                ", Accept='" + Accept + '\'' +
                 '}';
     }
 }
