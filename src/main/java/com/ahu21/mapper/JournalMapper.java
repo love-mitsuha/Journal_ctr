@@ -1,10 +1,7 @@
 package com.ahu21.mapper;
 
 import com.ahu21.pojo.Journal;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -23,4 +20,7 @@ public interface JournalMapper {
 
     @Update("UPDATE JOURNAL SET JNAME = 'JNAME',JPOST = 'JPOST',JYEAR = 'JYEAR',JPUBLISH = 'JPUBLISH',JCATEGORYNO = 'JCATEGORYNO',JCATEGORYNAME = 'JCATEGORYNAME',JJUAN = 'JUAN',JQI = 'JQI',JPLACE = 'JPLACE',JPATH = 'JPATH' WHERE JNO=#{JNO}")
     void updata(Journal journal);
+
+    @Insert("INSERT INTO JOURNAL VALUES (#{JNO}, #{JNAME}, #{JPOST}, #{JYEAR}, #{JPUBLISH}, #{JTYPE}, #{JCATEGORYNO}, #{JCATEGORYNAME}, #{JJUAN}, #{JQI}, #{JPLACE}, #{JPATH})")
+    Void insert(Journal journal);
 }
