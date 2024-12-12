@@ -1,6 +1,4 @@
 package com.ahu21.mapper;
-
-import com.ahu21.pojo.Manager;
 import com.ahu21.pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;

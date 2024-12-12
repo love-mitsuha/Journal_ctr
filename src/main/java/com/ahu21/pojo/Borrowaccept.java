@@ -1,17 +1,18 @@
 package com.ahu21.pojo;
 
-public class Borrow {
+public class Borrowaccept {
     private String UACCOUNT;
     private String JNO;
-    private String BDate;
+    private String Bdate;
+    private String Accept;
 
     // Constructor
-    public Borrow(String UACCOUNT, String JNO,  String BDate) {
+    public Borrowaccept(String UACCOUNT, String JNO, String BDate,String Accept) {
         this.UACCOUNT = UACCOUNT;
         this.JNO = JNO;
-        this.BDate = BDate;
+        this.Bdate = BDate;
+        this.Accept = Accept;
     }
-
     // Getters and Setters for userAccount
     public String getUACCOUNT() {
         return UACCOUNT;
@@ -32,11 +33,18 @@ public class Borrow {
 
     // Getters and Setters for borrowDate
     public String getBDate() {
-        return BDate;
+        return Bdate;
     }
 
     public void setBDate(String BDate) {
-        this.BDate = BDate;
+        this.Bdate = BDate;
+    }
+    public String getAccept() {
+        return Accept;
+    }
+
+    public void setAccept(String Accept) {
+        this.Accept = Accept;
     }
 
     // Additional methods (e.g., toString) can be added as needed
@@ -45,7 +53,8 @@ public class Borrow {
         return "Borrow{" +
                 "UACCOUNT='" + UACCOUNT + '\'' +
                 ", JNO=" + JNO + '\'' +
-                ", BDate=" + BDate + '\'' +
+                ", BDate=" + Bdate + '\'' +
+                ", Accept=" + Accept + '\'' +
                 '}';
     }
 }
