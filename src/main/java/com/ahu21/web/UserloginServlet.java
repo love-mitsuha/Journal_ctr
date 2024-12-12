@@ -54,7 +54,7 @@ public class UserloginServlet extends HttpServlet {
         if (user != null) {
             ServletContext context = getServletContext(); // 获取ServletContext对象
             String htmlTemplate = readFile(context, "/login.html");
-            String htmlContent = htmlTemplate.replace("<!--警告-->", "location.href=\"./J.html\"");
+            String htmlContent = htmlTemplate.replace("<!--警告-->", "location.href=\"./Usermain.html?username="+user.getUACCOUNT()+"\"");
             response.getWriter().write(htmlContent);
         }
         else{

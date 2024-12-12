@@ -35,7 +35,6 @@ public class LoginServlet extends HttpServlet {
         // TODO Auto-generated method stub
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println(username+password);
 //		1.直接复制
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);

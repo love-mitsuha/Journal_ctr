@@ -136,24 +136,7 @@
 
  // 判断是否成功
     document.getElementById("reg_btn").onclick=function(){
-<!--    //获取性别-->
-<!--    let gender=document.querySelector('input[name="gender"]:checked').value-->
-<!--    //判断是否符合要求-->
-<!--    if(checkpass()&&checkname()&&checkphone()&&(gender!=null)){-->
 
-<!--        var username = document.getElementById("username").value;-->
-<!--        var password = document.getElementById("password").value;-->
-
-<!--        // 相当于对ajax代码的简写-->
-<!--        axios({-->
-<!--            method: "post",-->
-<!--            url: "http://localhost:8080/mvn_base/registerServlet?username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password)-->
-<!--        }).then(function (resp) {-->
-<!--                let sp = document.getElementById("finalspan")-->
-<!--                sp.innerHTML = resp.data-->
-<!--                sp.style.display = 'block'-->
-<!--                alert(resp.data)-->
-<!--        })-->
 //获取性别
         let gender = document.querySelector('input[name="gender"]:checked').value
         let json = {

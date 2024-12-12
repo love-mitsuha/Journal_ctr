@@ -22,8 +22,9 @@ public class JouinsertServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String json1=request.getParameter("form");
-
+//        获取请求体数据
+        String json1=request.getReader().readLine();
+        System.out.println(json1);
         Journal Js1 = JSON.parseObject(json1,Journal.class);
         //		1.直接复制
         String resource = "mybatis-config.xml";
@@ -33,21 +34,18 @@ public class JouinsertServlet extends HttpServlet {
         SqlSession sqlSession=sqlSessionFactory.openSession();
 //		3.
         JournalMapper journalMapper = sqlSession.getMapper(JournalMapper.class);
-
+        Journal flag=journalMapper.select(Js1.getJNO());
+        Journal flag1=journalMapper.selectname(Js1.getJNAME());
         response.setContentType("text/html;charset=utf-8");
-        journalMapper.insert(Js1);
-        sqlSession.commit();
-//            响应
-        ServletContext context = getServletContext(); // 获取ServletContext对象
-
-
-        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("成功");
-        sqlSession.close();
-//            提交事务（很重要）
+        if(flag==null&&flag1==null) {
+            journalMapper.insert(Js1);
+            sqlSession.commit();
 
-        sqlSession.close();
+            response.getWriter().write("成功");
+            sqlSession.close();
+        }
+        else {response.getWriter().write("失败");sqlSession.close();}
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

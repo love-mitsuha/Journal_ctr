@@ -35,7 +35,9 @@ document.getElementById("login").onclick = function () {
                 url: "http://localhost:8080/mvn_base/loginServlet?username="+ encodeURIComponent(username) + "&password=" + encodeURIComponent(password)
             }).then(function (resp) {
                 if(resp.data=="成功")
-                {location.href="./userlist.html"}
+                {
+                location.href="./jousearch.html?username="+encodeURIComponent(username)
+                 }
                 else{
                 alert(resp.data)
                 }

@@ -37,7 +37,6 @@ public class JousearchServlet extends HttpServlet {
 
 
         String json = JSON.toJSONString(journals);
-        System.out.println(j);
         // 设置响应类型和编码
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -28,7 +28,6 @@ public class JoudeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String jno=request.getParameter("jno");
-
         //		1.直接复制
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -42,17 +41,12 @@ public class JoudeleteServlet extends HttpServlet {
             journalMapper.remove(jno);
             sqlSession.commit();
 //            响应
-            ServletContext context = getServletContext(); // 获取ServletContext对象
-
             List<Journal> Js= journalMapper.selectall();
             String json = JSON.toJSONString(Js);
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
-            sqlSession.close();
-//            提交事务（很重要）
-
             sqlSession.close();
 
     }

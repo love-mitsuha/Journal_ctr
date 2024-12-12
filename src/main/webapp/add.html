@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+<div id="app">
+    <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="期刊编号">
+            <el-input v-model="form.jNO" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="期刊名称">
+            <el-input v-model="form.jNAME" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="邮政编码">
+            <el-input v-model="form.jPOST" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="出版年份">
+            <el-input v-model.number="form.jYEAR" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="出版社">
+            <el-input v-model="form.jPUBLISH" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="出版周期">
+            <el-radio-group v-model="form.jTYPE">
+                <el-radio label="月刊"></el-radio>
+                <el-radio label="年刊"></el-radio>
+                <el-radio label="周刊"></el-radio>
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item label="期刊类型">
+            <el-select v-model="form.jCATEGORYNAME" placeholder="请选择期刊类型">
+                <el-option label="学术期刊" value="学术"></el-option>
+                <el-option label="工程期刊" value="工程"></el-option>
+                <el-option label="技术期刊" value="技术"></el-option>
+                <el-option label="管理期刊" value="管理"></el-option>
+                <el-option label="其他" value="其他"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="期刊卷号">
+            <el-input v-model.number="form.jJUAN" style="width: 80px;"></el-input>
+        </el-form-item>
+        <el-form-item label="  期号">
+            <el-input v-model.number="form.jQI" style="width: 80px;"></el-input>
+        </el-form-item>
+        <el-form-item label="馆藏地">
+            <el-select v-model="form.jPLACE" placeholder="请选择馆藏地">
+                <el-option label="文典阁" value="文典阁"></el-option>
+                <el-option label="逸夫馆" value="逸夫馆"></el-option>
+                <el-option label="金寨路馆" value="金寨路馆"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="图片名称">
+            <el-input v-model="form.jPATH" style="width: 300px;" placeholder="请输入图片名称类似于：1.jpg"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">入库</el-button>
+            <el-button @click="onCancel">取消</el-button>
+        </el-form-item>
+    </el-form>
+
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                form: {
+                    jNO: '',
+                    jNAME: '',
+                    jPOST: '',
+                    jYEAR: '',
+                    jPUBLISH: '',
+                    jTYPE: '',
+                    jCATEGORYNAME: '',
+                    jJUAN: '',
+                    jQI: '',
+                    jPLACE: '',
+                    jPATH:'',
+                }
+            }
+        },
+        methods: {
+            onSubmit() {
+                if(this.form.jNO!= '' && this.form.jNAME != '' && this.form.jPOST != '' && this.form.jYEAR != '' && this.form.jPUBLISH != '' && this.form.jTYPE != '' && this.form.jCATEGORYNAME != '' && this.form.jJUAN != '' && this.form.jQI != '' && this.form.jPLACE != ''&& this.form.jPATH != ''){
+                this.form.jPATH="./imgs/"+this.form.jPATH;
+                axios({
+                    method: "post",
+                    url: "http://localhost:8080/mvn_base/jouinsertServlet",
+                    data: this.form
+                }).then(function (resp) {
+                    if (resp.data == "成功") { location.href = "./jousearch.html" }
+                    else {
+                        alert("该期刊名或者所用编号已存在！")
+                    }
+                }).catch(error => {
+                        console.log(error);
+                    })
+                }
+                else{
+                    alert("请将信息填写完整！")
+                }
+            },
+            onCancel() {
+                location.href = "./jousearch.html"
+            }
+        }
+    })
+
+</script>
+
+</html>

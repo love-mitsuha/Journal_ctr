@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal List</title>
+    <!-- 引入Element Plus样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <style>
+        h2{
+          text-align: center;
+          color: rgba(49, 76, 229, 0.8);
+      }
+    </style>
+</head>
+<body>
+<div id="app" class="common-layout">
+    <el-container>
+        <el-header style="height: 10px;">
+            <p v-model="username">欢迎，{{username}}</p>
+        </el-header>
+        <el-main>
+            <h2>期刊</h2>
+            <el-input v-model="search" placeholder="可以通过名字类别" style="width: 200px;"></el-input>
+            <el-button type="primary" @click="searchJournal">搜索</el-button>
+            <br>
+            <el-table :data="brands" style="width: 100%">
+                <el-table-column prop="jPATH" label="图片">
+                    <template #default="scope">
+                        <img :src="scope.row.jPATH" alt="Journal Image" style="max-width: 100px; max-height: 100px;">
+                    </template>
+                </el-table-column>
+                <el-table-column prop="jNO" label="期刊编号"></el-table-column>
+                <el-table-column prop="jNAME" label="期刊名称"></el-table-column>
+                <el-table-column prop="jPOST" label="邮政编码"></el-table-column>
+                <el-table-column prop="jYEAR" label="期刊年份"></el-table-column>
+                <el-table-column prop="jPUBLISH" label="出版方"></el-table-column>
+                <el-table-column prop="jTYPE" label="出版周期"></el-table-column>
+                <el-table-column prop="jCATEGORYNAME" label="期刊类型"></el-table-column>
+                <el-table-column prop="jJUAN" label="期刊卷号"></el-table-column>
+                <el-table-column prop="jQI" label="期刊期号"></el-table-column>
+                <el-table-column prop="jPLACE" label="馆藏地"></el-table-column>
+
+                <el-table-column label="借阅">
+                    <template #default="scope">
+                        <el-button type="primary" @click="Journal(scope.row)">借阅</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-main>
+    </el-container>
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://unpkg.com/element-plus"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const { createApp } = Vue;
+    const app = createApp({
+        data() {
+            return {
+                brands: [],
+                search: '',
+                username: '',
+            editedJournal: {
+                jNO: '',
+                jNAME: '',
+                jPOST: '',
+                jYEAR: '',
+                jPUBLISH: '',
+                jTYPE: '',
+                jCATEGORYNAME: '',
+                jJUAN: '',
+                jQI: '',
+                jPLACE: '',
+                jPATH: ''
+            },
+            }
+        },
+        methods: {
+            searchJournal() {
+                axios.get('http://localhost:8080/mvn_base/jousearchServlet?j=' + this.search)
+                    .then(response => {
+                        console.log(response.data);
+                        this.brands = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
+            Journal(brand) {
+            axios.post('http://localhost:8080/mvn_base/joudeleteServlet?jno=' + brand)
+                    .then(response => {
+                        console.log(response.data);
+                        this.brands = response.data;
+                        alert("借阅成功")
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+
+            },
+            addJournal() {
+                location.href = 'add.html';
+            }
+        },
+        mounted() {
+            this.username = new URLSearchParams(window.location.search).get('username')
+        axios.get('http://localhost:8080/mvn_base/journalServlet')
+                    .then(response => {
+                        console.log(response.data);
+                        this.brands = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+        }
+    });
+
+    app.use(ElementPlus);
+    app.mount('#app');
+</script>
+</body>
+</html>

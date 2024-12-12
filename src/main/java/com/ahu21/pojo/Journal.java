@@ -7,7 +7,6 @@ public class Journal {
     private String JYEAR;
     private String JPUBLISH;
     private String JTYPE;
-    private String JCATEGORYNO;
     private String JCATEGORYNAME;
     private String JJUAN;
     private String JQI;
@@ -61,14 +60,6 @@ public class Journal {
         this.JTYPE = JTYPE;
     }
 
-    public String getJCATEGORYNO() {
-        return JCATEGORYNO;
-    }
-
-    public void setJCATEGORYNO(String JCATEGORYNO) {
-        this.JCATEGORYNO = JCATEGORYNO;
-    }
-
     public String getJCATEGORYNAME() {
         return JCATEGORYNAME;
     }
@@ -118,7 +109,6 @@ public class Journal {
                 ", JYEAR='" + JYEAR + '\'' +
                 ", JPUBLISH='" + JPUBLISH + '\'' +
                 ", JTYPE='" + JTYPE + '\'' +
-                ", JCATEGORYNO='" + JCATEGORYNO + '\'' +
                 ", JCATEGORYNAME='" + JCATEGORYNAME + '\'' +
                 ", JJUAN='" + JJUAN + '\'' +
                 ", JQI='" + JQI + '\'' +

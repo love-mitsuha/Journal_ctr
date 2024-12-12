@@ -2,6 +2,7 @@ package com.ahu21.web;
 
 import com.ahu21.mapper.JournalMapper;
 import com.ahu21.pojo.Journal;
+import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -38,28 +39,15 @@ public class JournalServlet extends HttpServlet {
         SqlSession sqlSession = sqlSessionFactory.openSession();
 //		3.
         JournalMapper journalMapper = sqlSession.getMapper(JournalMapper.class);
-//		4.
-        List<Journal> journals = journalMapper.selectall();
-//		 5.
 
         response.setContentType("text/html;charset=utf-8");
-        PrintWriter writer = response.getWriter();
+        List<Journal> Js= journalMapper.selectall();
+        String json = JSON.toJSONString(Js);
 
-        ServletContext context = getServletContext(); // 获取ServletContext对象
-        String htmlTemplate = readFile(context, "/J.html");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
         sqlSession.close();
-        // 插入用户数据
-        StringBuilder journalHtml = new StringBuilder();
-        int n=0;
-        for (Journal j : journals) {
-//            要写入的journal数据
-            n++;
-        }
-        journalHtml.append("let n="+n);
-        // 替换模板中的用户数据占位符
-        String htmlContent = htmlTemplate.replace("<!--输入n-->", journalHtml.toString());
-        // 写入响应
-        writer.write(htmlContent);
 
     }
     @Override
@@ -68,12 +56,4 @@ public class JournalServlet extends HttpServlet {
         this.doGet(request, response);
     }
 
-    private String readFile(ServletContext context, String filePath) throws IOException {
-        String realPath = context.getRealPath(filePath);
-        StringBuilder contentBuilder = new StringBuilder();
-        try (Stream<String> stream = Files.lines(Paths.get(realPath), StandardCharsets.UTF_8)) {
-            stream.forEach(s -> contentBuilder.append(s).append("\n"));
-        }
-        return contentBuilder.toString();
-    }
 }
