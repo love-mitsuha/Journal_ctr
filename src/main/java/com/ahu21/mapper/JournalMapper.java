@@ -24,5 +24,5 @@ public interface JournalMapper {
     void updata(Journal journal);
 
     @Insert("INSERT INTO JOURNAL VALUES (#{JNO}, #{JNAME}, #{JPOST}, #{JYEAR}, #{JPUBLISH}, #{JTYPE}, #{JCATEGORYNAME}, #{JJUAN}, #{JQI}, #{JPLACE}, #{JPATH})")
-    Void insert(Journal journal);
+    void insert(Journal journal);
 }

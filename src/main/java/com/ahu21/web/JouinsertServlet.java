@@ -24,7 +24,6 @@ public class JouinsertServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 //        获取请求体数据
         String json1=request.getReader().readLine();
-        System.out.println(json1);
         Journal Js1 = JSON.parseObject(json1,Journal.class);
         //		1.直接复制
         String resource = "mybatis-config.xml";
