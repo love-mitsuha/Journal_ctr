@@ -67,7 +67,7 @@
         },
         mounted() {
             this.username = new URLSearchParams(window.location.search).get('username');
-            axios.get('http://localhost:8080/mvn_base/jousearchServlet?username='+encodeURIComponent(this.username))
+            axios.get('http://localhost:8080/mvn_base/usersearchbServlet?username='+encodeURIComponent(this.username))
                     .then(response => {
                         console.log(response.data);
                         this.brands = response.data;

@@ -38,7 +38,6 @@ public class BorinsertServlet extends HttpServlet {
 
         Borrowaccept flag = borrowMapper.selectnull(Bs1.getJNO(),Bs1.getUACCOUNT());
         response.setContentType("text/html;charset=utf-8");
-        System.out.println(flag);
         if(flag==null){
             borrowMapper.insertba(Bs1);
             response.getWriter().write("成功");
