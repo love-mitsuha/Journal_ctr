@@ -1,7 +1,9 @@
 package com.ahu21.web;
 
 import com.ahu21.mapper.BorrowMapper;
+import com.ahu21.mapper.ReturnMapper;
 import com.ahu21.pojo.Borrowinfo;
+import com.ahu21.pojo.Return;
 import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -33,7 +35,12 @@ public class BordealServlet extends HttpServlet {
         BorrowMapper borrowMapper = sqlSession.getMapper(BorrowMapper.class);
 
         borrowMapper.updateba(UACCOUNT,JNO);
-
+        sqlSession.commit();
+        ReturnMapper returnMapper=sqlSession.getMapper(ReturnMapper.class);
+        Return a =returnMapper.select1(UACCOUNT,JNO);
+        a.setAccept("未归还");
+        returnMapper.insert(a);
+        sqlSession.commit();
         response.setContentType("text/html;charset=utf-8");
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
