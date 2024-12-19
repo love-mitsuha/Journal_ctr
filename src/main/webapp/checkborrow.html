@@ -20,11 +20,6 @@
             <el-button type="primary" @click="outlogin" style="margin-left: 90%;">退出查看</el-button>
             <br>
             <el-table :data="brands" style="width: 100%">
-                <el-table-column prop="jPATH" label="图片">
-                    <template #default="scope">
-                        <img :src="scope.row.jPATH" alt="Journal Image" style="max-width: 100px; max-height: 100px;">
-                    </template>
-                </el-table-column>
                 <el-table-column prop="jNO" label="期刊编号"></el-table-column>
                 <el-table-column prop="jNAME" label="期刊名称"></el-table-column>
                 <el-table-column prop="jTYPE" label="出版周期"></el-table-column>

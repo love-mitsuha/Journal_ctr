@@ -2,9 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>期刊归还信息</title>
+    <title>归还信息</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
 </head>
 <body>
-
+<div id="app" class="common-layout">
+    <el-container>
+        <el-main>
+            <el-select  placeholder="选择操作事务">
+                <el-option label="期刊" @click="journal"> </el-option>
+                <el-option label="借阅信息" @click="borrow"></el-option>
+                <el-option label="归还期刊" @click="returnjou"></el-option>
+            </el-select>
+            <h2>借阅信息</h2>
+            <el-input v-model="search" placeholder="可以通过期刊及借阅人信息搜索" style="width: 200px;"></el-input>
+            <el-button type="primary" @click="searchJournal">搜索</el-button>
+            <el-button type="primary" @click="outlogin" style="margin-left: 90%;">退出查看</el-button>
+            <br>
+            <el-table :data="brands" style="width: 100%">
+                <el-table-column prop="jPATH" label="图片">
+                    <template #default="scope">
+                        <img :src="scope.row.jPATH" alt="Journal Image" style="max-width: 100px; max-height: 100px;">
+                    </template>
+                </el-table-column>
+                <el-table-column prop="jNO" label="期刊编号"></el-table-column>
+                <el-table-column prop="jNAME" label="期刊名称"></el-table-column>
+                <el-table-column prop="uACCOUNT" label="借阅人"></el-table-column>
+                <el-table-column prop="bdate" label="借阅日期"></el-table-column>
+                <el-table-column prop="accept" label="归还状态"></el-table-column>
+                <el-table-column label="归还">
+                    <template #default="scope">
+                        <el-button type="primary" @click="returnJournal(scope.row)">归还</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-main>
+    </el-container>
+</div>
 </body>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://unpkg.com/element-plus"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const { createApp } = Vue;
+   const app = createApp({
+        data() {
+            return {
+                brands: [],
+                username: '',
+                search: ''
+            }
+        },
+        methods: {
+            outLogin() {
+                location.href = 'managerlog.html';
+            },
+            searchJournal() {
+            axios.get('http://localhost:8080/mvn_base/managersearchbServlet?search='+encodeURIComponent(this.search))
+                    .then(response => {
+                        console.log(response.data);
+                        this.brands = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+           },
+           returnJournal(row) {
+           axios.post('http://localhost:8080/mvn_base/bordealServlet?UACCOUNT=' + row.uACCOUNT + '&JNO=' + row.jNO)
+                    .then(response => {
+                        if(response.data === "OK")
+                        {alert("审核完成")
+                        self.searchJournal();
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+           },
+           journal() {
+                location.href = 'jousearch.html';
+            },
+            borrow() {
+                location.href = 'checkborrow.html';
+            },
+            returnjou() {
+                location.href = 'returnjou.html';
+            }
+        },
+        mounted() {
+            axios.get('http://localhost:8080/mvn_base/managerborServlet?')
+                    .then(response => {
+                        console.log(response.data);
+                        this.brands = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+         }
+      })
+      app.use(ElementPlus)
+      app.mount('#app')
+</script>
 </html>
