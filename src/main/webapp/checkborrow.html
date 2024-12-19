@@ -8,11 +8,15 @@
 <body>
 <div id="app" class="common-layout">
     <el-container>
-        <el-header style="height: 10px;">
-            <p v-model="username">欢迎，{{username}}</p>
-        </el-header>
         <el-main>
+            <el-select  placeholder="选择操作事务">
+            <el-option label="期刊" @click="journal"> </el-option>
+            <el-option label="借阅信息" @click="borrow"></el-option>
+            <el-option label="归还期刊" @click="returnjou"></el-option>
+        </el-select>
             <h2>借阅信息</h2>
+            <el-input v-model="search" placeholder="可以通过期刊信息搜索" style="width: 200px;"></el-input>
+            <el-button type="primary" @click="searchJournal">搜索</el-button>
             <el-button type="primary" @click="outlogin" style="margin-left: 90%;">退出查看</el-button>
             <br>
             <el-table :data="brands" style="width: 100%">
@@ -28,9 +32,14 @@
                 <el-table-column prop="jJUAN" label="期刊卷号"></el-table-column>
                 <el-table-column prop="jQI" label="期刊期号"></el-table-column>
                 <el-table-column prop="jPLACE" label="馆藏地"></el-table-column>
+                <el-table-column prop="uACCOUNT" label="借阅人"></el-table-column>
                 <el-table-column prop="bdate" label="借阅日期"></el-table-column>
                 <el-table-column prop="accept" label="审核状态"></el-table-column>
-
+                <el-table-column label="审核">
+                    <template #default="scope">
+                        <el-button type="primary" @click="checkJournal(scope.row)">审核</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
         </el-main>
     </el-container>
@@ -47,16 +56,47 @@
             return {
                 brands: [],
                 username: '',
+                search: ''
             }
         },
         methods: {
-            outlogin() {
-                window.location.href = "Usermain.html?username="+this.username;
+            outLogin() {
+                location.href = 'managerlog.html';
             },
+            searchJournal() {
+            axios.get('http://localhost:8080/mvn_base/managersearchbServlet?search='+encodeURIComponent(this.search))
+                    .then(response => {
+                        console.log(response.data);
+                        this.brands = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+           },
+           checkJournal(row) {
+           axios.post('http://localhost:8080/mvn_base/bordealServlet?UACCOUNT=' + row.uACCOUNT + '&JNO=' + row.jNO)
+                    .then(response => {
+                        if(response.data === "OK")
+                        {alert("审核完成")
+                        self.searchJournal();
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+           },
+           journal() {
+                location.href = 'jousearch.html';
+            },
+            borrow() {
+                location.href = 'checkborrow.html';
+            },
+            returnjou() {
+                location.href = 'returnjou.html';
+            }
         },
         mounted() {
-            this.username = new URLSearchParams(window.location.search).get('username');
-            axios.get('http://localhost:8080/mvn_base/usersearchbServlet?username='+encodeURIComponent(this.username))
+            axios.get('http://localhost:8080/mvn_base/managerborServlet?')
                     .then(response => {
                         console.log(response.data);
                         this.brands = response.data;
