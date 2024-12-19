@@ -1,6 +1,7 @@
 package com.ahu21.pojo;
 
     public class Borrowinfo {
+        private String UACCOUNT;
         private String JNO;
         private String JNAME;
         private String JTYPE;
@@ -11,6 +12,12 @@ package com.ahu21.pojo;
         private String Bdate;
         private String Accept;
 
+        public String getUACCOUNT() {
+            return UACCOUNT;
+        }
+        public void setUACCOUNT(String UACCOUNT) {
+            this.UACCOUNT = UACCOUNT;
+        }
         public String getJNO() {
             return JNO;
         }
@@ -68,6 +75,7 @@ package com.ahu21.pojo;
         @Override
         public String toString() {
             return "Borrow{" +
+                    "UACCOUNT='" + UACCOUNT + '\'' +
                     ", JNO='" + JNO + '\'' +
                     ", JNAME='" + JNAME + '\'' +
                     ", JTYPE='" + JTYPE + '\'' +
