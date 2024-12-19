@@ -1,6 +1,6 @@
 package com.ahu21.mapper;
 
-import com.ahu21.pojo.Return;
+import com.ahu21.pojo.Returnaccept;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -11,18 +11,19 @@ import java.util.List;
 
 public interface ReturnMapper {
 
-    @Select("SELECT Return.UACCOUNT,JOURNAL.JNO, JOURNAL.JNAME, JOURNAL.JTYPE, JOURNAL.JCATEGORYNAME, JOURNAL.JJUAN, JOURNAL.JQI, JOURNAL.JPLACE, Return.Rdate, Return.Accept FROM JOURNAL JOIN Return ON JOURNAL.JNO = Return.JNO where Return.UACCOUNT LIKE CONCAT('%', #{a} , '%') or Return.JNO LIKE CONCAT('%', #{a},'%')")
-    List<Return> manaagerselectr(@Param("a") String a);
+    @Select("SELECT Returnaccept.UACCOUNT,JOURNAL.JNO, JOURNAL.JNAME, JOURNAL.JTYPE, JOURNAL.JCATEGORYNAME, JOURNAL.JJUAN, JOURNAL.JQI, JOURNAL.JPLACE, Returnaccept.Rdate, Returnaccept.Accept FROM JOURNAL JOIN Returnaccept ON JOURNAL.JNO = Returnaccept.JNO where Returnaccept.UACCOUNT LIKE CONCAT('%', #{a} , '%') or Returnaccept.JNO LIKE CONCAT('%', #{a},'%')")
+    List<Returnaccept> manaagerselectr(@Param("a") String a);
 
-    @Select("SELECT Return.UACCOUNT,JOURNAL.JNO, JOURNAL.JNAME, JOURNAL.JTYPE, JOURNAL.JCATEGORYNAME, JOURNAL.JJUAN, JOURNAL.JQI, JOURNAL.JPLACE, Return.Rdate, Return.Accept FROM JOURNAL JOIN Return ON JOURNAL.JNO = Return.JNO")
-    List<Return> selectr();
+    @Select("SELECT Returnaccept.UACCOUNT,JOURNAL.JNO, JOURNAL.JNAME, JOURNAL.JTYPE, JOURNAL.JCATEGORYNAME, JOURNAL.JJUAN, JOURNAL.JQI, JOURNAL.JPLACE, Returnaccept.Rdate, Returnaccept.Accept FROM JOURNAL JOIN Returnaccept ON JOURNAL.JNO = Returnaccept.JNO")
+    List<Returnaccept> selectr();
 
     @Select("select * from Borrowaccept where UACCOUNT=#{UACCOUNT} and JNO=#{JNO} and Accept='通过'")
-    Return select1(@Param("UACCOUNT") String UACCOUNT,@Param("JNO") String JNO);
+    Returnaccept select1(@Param("UACCOUNT") String UACCOUNT, @Param("JNO") String JNO);
 
-    @Insert("insert into Return values(#{UACCOUNT},#{JNO},#{JDATE},#{Accept})")
-    void insert(Return return1);
+    @Insert("insert into Returnaccept values (#{UACCOUNT},#{JNO},#{Rdate},#{Accept})")
+    void insert1(Returnaccept returnaccept);
 
-    @Update("update Return set Accept='已归还' where UACCOUNT=#{UACCOUNT} and JNO=#{JNO}")
+    @Update("update Returnaccept set Accept='已归还' where UACCOUNT=#{UACCOUNT} and JNO=#{JNO}")
     void update(@Param("UACCOUNT") String UACCOUNT,@Param("JNO") String JNO);
+
 }

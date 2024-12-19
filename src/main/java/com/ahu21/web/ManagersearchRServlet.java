@@ -1,7 +1,7 @@
 package com.ahu21.web;
 
 import com.ahu21.mapper.ReturnMapper;
-import com.ahu21.pojo.Return;
+import com.ahu21.pojo.Returnaccept;
 import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -32,7 +32,7 @@ public class ManagersearchRServlet extends HttpServlet {
 //		3.
         ReturnMapper returnMapper=sqlSession.getMapper(ReturnMapper.class);
 
-        List<Return> Rinfo1=returnMapper.manaagerselectr(a);
+        List<Returnaccept> Rinfo1=returnMapper.manaagerselectr(a);
         String json = JSON.toJSONString(Rinfo1);
         response.setContentType("text/html;charset=utf-8");
         response.setContentType("application/json");

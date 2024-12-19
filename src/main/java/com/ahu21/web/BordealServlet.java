@@ -2,9 +2,7 @@ package com.ahu21.web;
 
 import com.ahu21.mapper.BorrowMapper;
 import com.ahu21.mapper.ReturnMapper;
-import com.ahu21.pojo.Borrowinfo;
-import com.ahu21.pojo.Return;
-import com.alibaba.fastjson.JSON;
+import com.ahu21.pojo.Returnaccept;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @WebServlet("/bordealServlet")
 public class BordealServlet extends HttpServlet {
@@ -37,9 +34,9 @@ public class BordealServlet extends HttpServlet {
         borrowMapper.updateba(UACCOUNT,JNO);
         sqlSession.commit();
         ReturnMapper returnMapper=sqlSession.getMapper(ReturnMapper.class);
-        Return a =returnMapper.select1(UACCOUNT,JNO);
-        a.setAccept("未归还");
-        returnMapper.insert(a);
+        Returnaccept R =returnMapper.select1(UACCOUNT,JNO);
+        R.setAccept("未归还");
+        returnMapper.insert1(R);
         sqlSession.commit();
         response.setContentType("text/html;charset=utf-8");
         response.setContentType("application/json");

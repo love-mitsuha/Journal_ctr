@@ -1,15 +1,15 @@
 package com.ahu21.pojo;
 
-public class Return {
+public class Returnaccept {
     private String UACCOUNT;
     private String JNO;
-    private String RDate;
+    private String Rdate;
     private String Accept;
 
-    public Return(String UACCOUNT, String JNO, String RDate,String Accept) {
+    public Returnaccept(String UACCOUNT, String JNO, String Rdate, String Accept) {
         this.UACCOUNT=UACCOUNT;
         this.JNO=JNO;
-        this.RDate=RDate;
+        this.Rdate=Rdate;
         this.Accept = Accept;
     }
 
@@ -30,10 +30,10 @@ public class Return {
         this.JNO = JNO;
     }
 
-    public String getRDate(){return  RDate;}
+    public String getRDate(){return  Rdate;}
 
     public void setRDate(String RDate) {
-        this.RDate = RDate;
+        this.Rdate = RDate;
     }
     public String getAccept() {
         return Accept;
@@ -46,10 +46,10 @@ public class Return {
     // Additional methods (e.g., toString) can be added as needed
     @Override
     public String toString() {
-        return "Borrow{" +
+        return "Return{" +
                 "UACCOUNT='" + UACCOUNT + '\'' +
-                ", JNO=" + JNO + '\'' +
-                ", RDate=" + RDate + '\'' +
+                ", JNO='" + JNO + '\'' +
+                ", Rdate='" + Rdate + '\'' +
                 ", Accept='" + Accept + '\'' +
                 '}';
     }

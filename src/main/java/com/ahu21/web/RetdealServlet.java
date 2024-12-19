@@ -1,8 +1,6 @@
 package com.ahu21.web;
 
 import com.ahu21.mapper.ReturnMapper;
-import com.ahu21.pojo.Return;
-import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @WebServlet("/retdealServlet")
 public class RetdealServlet extends HttpServlet {

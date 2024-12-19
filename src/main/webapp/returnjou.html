@@ -28,7 +28,7 @@
                 <el-table-column prop="jNO" label="期刊编号"></el-table-column>
                 <el-table-column prop="jNAME" label="期刊名称"></el-table-column>
                 <el-table-column prop="uACCOUNT" label="借阅人"></el-table-column>
-                <el-table-column prop="bdate" label="借阅日期"></el-table-column>
+                <el-table-column prop="rDate" label="借阅日期"></el-table-column>
                 <el-table-column prop="accept" label="归还状态"></el-table-column>
                 <el-table-column label="归还">
                     <template #default="scope">
@@ -59,7 +59,7 @@
                 location.href = 'managerlog.html';
             },
             searchJournal() {
-            axios.get('http://localhost:8080/mvn_base/managersearchbServlet?search='+encodeURIComponent(this.search))
+            axios.get('http://localhost:8080/mvn_base/managersearchrServlet?search='+encodeURIComponent(this.search))
                     .then(response => {
                         console.log(response.data);
                         this.brands = response.data;
@@ -69,7 +69,7 @@
                     })
            },
            returnJournal(row) {
-           axios.post('http://localhost:8080/mvn_base/bordealServlet?UACCOUNT=' + row.uACCOUNT + '&JNO=' + row.jNO)
+           axios.post('http://localhost:8080/mvn_base/retdealServlet?UACCOUNT=' + row.uACCOUNT + '&JNO=' + row.jNO)
                     .then(response => {
                         if(response.data === "OK")
                         {alert("审核完成")
@@ -91,7 +91,7 @@
             }
         },
         mounted() {
-            axios.get('http://localhost:8080/mvn_base/managerborServlet?')
+            axios.get('http://localhost:8080/mvn_base/joureturnSevlet')
                     .then(response => {
                         console.log(response.data);
                         this.brands = response.data;
