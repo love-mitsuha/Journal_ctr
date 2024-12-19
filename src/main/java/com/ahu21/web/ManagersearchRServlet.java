@@ -1,8 +1,8 @@
 package com.ahu21.web;
 
-import com.ahu21.mapper.BorrowMapper;
 import com.ahu21.mapper.ReturnMapper;
 import com.ahu21.pojo.Returnaccept;
+import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -15,33 +15,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
-@WebServlet("/bordealServlet")
-public class BordealServlet extends HttpServlet {
+@WebServlet("/managersearchrServlet")
+public class ManagersearchRServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String  UACCOUNT= request.getParameter("UACCOUNT");
-        String  JNO= request.getParameter("JNO");
+        String  a= request.getParameter("search");
         //		1.直接复制
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 //      2.
         SqlSession sqlSession=sqlSessionFactory.openSession();
-        BorrowMapper borrowMapper = sqlSession.getMapper(BorrowMapper.class);
-
-        borrowMapper.updateba(UACCOUNT,JNO);
-        sqlSession.commit();
+//		3.
         ReturnMapper returnMapper=sqlSession.getMapper(ReturnMapper.class);
-        Returnaccept R =returnMapper.select1(UACCOUNT,JNO);
-        R.setAccept("未归还");
-        returnMapper.insert1(R);
-        sqlSession.commit();
+
+        List<Returnaccept> Rinfo1=returnMapper.manaagerselectr(a);
+        String json = JSON.toJSONString(Rinfo1);
         response.setContentType("text/html;charset=utf-8");
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("OK");
+        response.getWriter().write(json);
         sqlSession.close();
     }
     @Override

@@ -1,8 +1,6 @@
 package com.ahu21.web;
 
-import com.ahu21.mapper.BorrowMapper;
 import com.ahu21.mapper.ReturnMapper;
-import com.ahu21.pojo.Returnaccept;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -16,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 
-@WebServlet("/bordealServlet")
-public class BordealServlet extends HttpServlet {
+@WebServlet("/retdealServlet")
+public class RetdealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -29,14 +27,10 @@ public class BordealServlet extends HttpServlet {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 //      2.
         SqlSession sqlSession=sqlSessionFactory.openSession();
-        BorrowMapper borrowMapper = sqlSession.getMapper(BorrowMapper.class);
-
-        borrowMapper.updateba(UACCOUNT,JNO);
-        sqlSession.commit();
+//		3.
         ReturnMapper returnMapper=sqlSession.getMapper(ReturnMapper.class);
-        Returnaccept R =returnMapper.select1(UACCOUNT,JNO);
-        R.setAccept("未归还");
-        returnMapper.insert1(R);
+
+        returnMapper.update(UACCOUNT,JNO);
         sqlSession.commit();
         response.setContentType("text/html;charset=utf-8");
         response.setContentType("application/json");
