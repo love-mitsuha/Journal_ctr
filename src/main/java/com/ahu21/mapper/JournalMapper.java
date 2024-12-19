@@ -1,6 +1,8 @@
 package com.ahu21.mapper;
 
 import com.ahu21.pojo.Journal;
+import com.ahu21.pojo.Class;
+import com.ahu21.pojo.Place;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -25,4 +27,10 @@ public interface JournalMapper {
 
     @Insert("INSERT INTO JOURNAL VALUES (#{JNO}, #{JNAME}, #{JPOST}, #{JYEAR}, #{JPUBLISH}, #{JTYPE}, #{JCATEGORYNAME}, #{JJUAN}, #{JQI}, #{JPLACE}, #{JPATH})")
     void insert(Journal journal);
+
+    @Select("select * from Class")
+    List<Class> selectCategory();
+
+    @Select("select * from Place")
+    List<Place> SelectPlace();
 }

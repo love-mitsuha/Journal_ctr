@@ -34,6 +34,7 @@ public class JouinsertServlet extends HttpServlet {
 
         Journal flag=journalMapper.select(Js1.getJNO());
         Journal flag1=journalMapper.selectname(Js1.getJNAME());
+
         response.setContentType("text/html;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
         if(flag==null&&flag1==null) {
