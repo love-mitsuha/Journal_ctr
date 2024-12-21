@@ -34,11 +34,10 @@
         </el-form-item>
         <el-form-item label="期刊类型">
             <el-select v-model="form.jCATEGORYNAME" placeholder="请选择期刊类型">
-                <el-option label="学术期刊" value="学术"></el-option>
-                <el-option label="工程期刊" value="工程"></el-option>
-                <el-option label="技术期刊" value="技术"></el-option>
-                <el-option label="管理期刊" value="管理"></el-option>
-                <el-option label="其他" value="其他"></el-option>
+                <el-option v-for="item in classes" :key="item.cLASS"
+                           :value="item.cLASS"
+                           :label="item.cLASS">
+                </el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="期刊卷号">
@@ -49,9 +48,9 @@
         </el-form-item>
         <el-form-item label="馆藏地">
             <el-select v-model="form.jPLACE" placeholder="请选择馆藏地">
-                <el-option label="文典阁" value="文典阁"></el-option>
-                <el-option label="逸夫馆" value="逸夫馆"></el-option>
-                <el-option label="金寨路馆" value="金寨路馆"></el-option>
+                <el-option v-for="option in options" :key="option.pLACE" :label="option.pLACE"
+                           :value="option.pLACE">
+                </el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="图片名称">
@@ -75,6 +74,8 @@
         el: '#app',
         data() {
             return {
+                options: [],
+                classes: [],
                 form: {
                     jNO: '',
                     jNAME: '',
@@ -86,35 +87,54 @@
                     jJUAN: '',
                     jQI: '',
                     jPLACE: '',
-                    jPATH:'',
+                    jPATH: '',
                 }
             }
         },
         methods: {
             onSubmit() {
-                if(this.form.jNO!= '' && this.form.jNAME != '' && this.form.jPOST != '' && this.form.jYEAR != '' && this.form.jPUBLISH != '' && this.form.jTYPE != '' && this.form.jCATEGORYNAME != '' && this.form.jJUAN != '' && this.form.jQI != '' && this.form.jPLACE != ''&& this.form.jPATH != ''){
-                this.form.jPATH="./imgs/"+this.form.jPATH;
-                axios({
-                    method: "post",
-                    url: "http://localhost:8080/mvn_base/jouinsertServlet",
-                    data: this.form
-                }).then(function (resp) {
-                    if (resp.data == "成功") { location.href = "./jousearch.html" }
-                    else {
-                        alert("该期刊名或者所用编号已存在！")
-                    }
-                }).catch(error => {
+                if (this.form.jNO != '' && this.form.jNAME != '' && this.form.jPOST != '' && this.form.jYEAR != '' && this.form.jPUBLISH != '' && this.form.jTYPE != '' && this.form.jCATEGORYNAME != '' && this.form.jJUAN != '' && this.form.jQI != '' && this.form.jPLACE != '' && this.form.jPATH != '') {
+                    this.form.jPATH = "./imgs/" + this.form.jPATH;
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/mvn_base/jouinsertServlet",
+                        data: this.form
+                    }).then(function (resp) {
+                        if (resp.data == "成功") { location.href = "./jousearch.html" }
+                        else {
+                            alert("该期刊名或者所用编号已存在！")
+                        }
+                    }).catch(error => {
                         console.log(error);
                     })
                 }
-                else{
+                else {
                     alert("请将信息填写完整！")
                 }
             },
             onCancel() {
                 location.href = "./jousearch.html"
             }
+        },
+        mounted() {
+            axios.get('http://localhost:8080/mvn_base/categoryServlet')
+                .then(response => {
+                    console.log(response.data);
+                    this.classes = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                axios.get('http://localhost:8080/mvn_base/placeServlet')
+                .then(response => {
+                    console.log(response.data);
+                    this.options = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         }
+
     })
 
 </script>

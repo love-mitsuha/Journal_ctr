@@ -1,9 +1,7 @@
 package com.ahu21.web;
 
-
-import com.ahu21.pojo.Class;
-import com.ahu21.pojo.Place;
-import com.ahu21.mapper.JournalMapper;
+import com.ahu21.mapper.ReturnMapper;
+import com.ahu21.pojo.Returnaccept;
 import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -19,31 +17,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@WebServlet("/categoryServlet")
-public class CategoryServlet extends  HttpServlet{
+@WebServlet("/joureturnSevlet")
+public class JoureturnSevlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        //直接复制
+
+        //		1.直接复制
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//      2.
+        SqlSession sqlSession=sqlSessionFactory.openSession();
+//		3.
+        ReturnMapper returnMapper=sqlSession.getMapper(ReturnMapper.class);
 
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        JournalMapper journalMapper = sqlSession.getMapper(JournalMapper.class);
-
-        List<Class> classes = journalMapper.selectCategory();
-        List<Place> places = journalMapper.SelectPlace();
-
-        String category_json = JSON.toJSONString(classes);
-
+        List<Returnaccept> Rinfo1=returnMapper.selectr();
+        System.out.println(Rinfo1);
+        String json = JSON.toJSONString(Rinfo1);
+        System.out.println(json);
         response.setContentType("text/html;charset=utf-8");
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(category_json);
-        sqlSession.commit();
+        response.getWriter().write(json);
         sqlSession.close();
-    }
 
+    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
@@ -51,9 +49,3 @@ public class CategoryServlet extends  HttpServlet{
     }
 
 }
-
-
-
-
-
-
