@@ -73,7 +73,7 @@
                     .then(response => {
                         if(response.data === "OK")
                         {alert("审核完成")
-                        self.searchJournal();
+                        this.refresh()
                         }
                     })
                     .catch(error => {
@@ -88,9 +88,8 @@
             },
             returnjou() {
                 location.href = 'returnjou.html';
-            }
-        },
-        mounted() {
+            },
+            refresh(){
             axios.get('http://localhost:8080/mvn_base/managerborServlet?')
                     .then(response => {
                         console.log(response.data);
@@ -99,6 +98,11 @@
                     .catch(error => {
                         console.log(error);
                     })
+            }
+
+        },
+        mounted() {
+            this.refresh()
          }
       })
       app.use(ElementPlus)

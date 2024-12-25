@@ -2,10 +2,7 @@ package com.ahu21.mapper;
 
 import com.ahu21.pojo.Borrowaccept;
 import com.ahu21.pojo.Borrowinfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -30,4 +27,7 @@ public interface BorrowMapper {
 
     @Update("update Borrowaccept set Accept='通过' where UACCOUNT=#{UACCOUNT} and JNO=#{JNO}")
     void updateba(@Param("UACCOUNT") String UACCOUNT,@Param("JNO") String JNO);
+
+    @Delete("DELETE from Borrowaccept where UACCOUNT=#{UACCOUNT} AND JNO=#{jno}")
+    void delete(@Param("jno") String jno, @Param("UACCOUNT")String UACCOUNT);
 }

@@ -1,5 +1,6 @@
 package com.ahu21.web;
 
+import com.ahu21.mapper.BorrowMapper;
 import com.ahu21.mapper.ReturnMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -29,8 +30,9 @@ public class RetdealServlet extends HttpServlet {
         SqlSession sqlSession=sqlSessionFactory.openSession();
 //		3.
         ReturnMapper returnMapper=sqlSession.getMapper(ReturnMapper.class);
-
+        BorrowMapper borrowMapper=sqlSession.getMapper(BorrowMapper.class);
         returnMapper.update(UACCOUNT,JNO);
+        borrowMapper.delete(JNO,UACCOUNT);
         sqlSession.commit();
         response.setContentType("text/html;charset=utf-8");
         response.setContentType("application/json");

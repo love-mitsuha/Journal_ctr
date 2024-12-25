@@ -17,11 +17,11 @@
             <h2>借阅信息</h2>
             <el-input v-model="search" placeholder="可以通过期刊及借阅人信息搜索" style="width: 200px;"></el-input>
             <el-button type="primary" @click="searchJournal">搜索</el-button>
+            <el-button type="primary" @click="history">查看已归还信息</el-button>
             <el-button type="primary" @click="outlogin" style="margin-left: 90%;">退出查看</el-button>
             <br>
             <el-table :data="brands" style="width: 100%">
                 <el-table-column prop="jNO" label="期刊编号"></el-table-column>
-                <el-table-column prop="jNAME" label="期刊名称"></el-table-column>
                 <el-table-column prop="uACCOUNT" label="借阅人"></el-table-column>
                 <el-table-column prop="rDate" label="借阅日期"></el-table-column>
                 <el-table-column prop="accept" label="归还状态"></el-table-column>
@@ -46,7 +46,8 @@
             return {
                 brands: [],
                 username: '',
-                search: ''
+                search: '',
+                flag: 'false'
             }
         },
         methods: {
@@ -67,8 +68,8 @@
            axios.post('http://localhost:8080/mvn_base/retdealServlet?UACCOUNT=' + row.uACCOUNT + '&JNO=' + row.jNO)
                     .then(response => {
                         if(response.data === "OK")
-                        {alert("审核完成")
-                        self.searchJournal();
+                        {alert("归还成功")
+                        this.refresh()
                         }
                     })
                     .catch(error => {
@@ -83,10 +84,10 @@
             },
             returnjou() {
                 location.href = 'returnjou.html';
-            }
-        },
-        mounted() {
-            axios.get('http://localhost:8080/mvn_base/joureturnSevlet')
+            },
+            history(){
+            let flage='true'
+            axios.post('http://localhost:8080/mvn_base/joureturnSevlet?flag='+flage)
                     .then(response => {
                         console.log(response.data);
                         this.brands = response.data;
@@ -94,6 +95,20 @@
                     .catch(error => {
                         console.log(error);
                     })
+            },
+            refresh(){
+            axios.post('http://localhost:8080/mvn_base/joureturnSevlet?flag='+this.flag)
+                    .then(response => {
+                        console.log(response.data);
+                        this.brands = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        },
+        mounted() {
+            this.refresh()
          }
       })
       app.use(ElementPlus)
