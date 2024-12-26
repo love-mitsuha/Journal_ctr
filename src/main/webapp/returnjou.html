@@ -17,7 +17,8 @@
             <h2>借阅信息</h2>
             <el-input v-model="search" placeholder="可以通过期刊及借阅人信息搜索" style="width: 200px;"></el-input>
             <el-button type="primary" @click="searchJournal">搜索</el-button>
-            <el-button type="primary" @click="history">查看已归还信息</el-button>
+            <el-button type="primary" @click="history" v-if="point">查看已归还信息</el-button>
+            <el-button type="primary" @click="refresh" v-if="!point">查看未归还信息</el-button>
             <el-button type="primary" @click="outlogin" style="margin-left: 90%;">退出查看</el-button>
             <br>
             <el-table :data="brands" style="width: 100%">
@@ -47,7 +48,8 @@
                 brands: [],
                 username: '',
                 search: '',
-                flag: 'false'
+                flag: 'false',
+                point: true
             }
         },
         methods: {
@@ -87,6 +89,7 @@
             },
             history(){
             let flage='true'
+            this.point=false
             axios.post('http://localhost:8080/mvn_base/joureturnSevlet?flag='+flage)
                     .then(response => {
                         console.log(response.data);
@@ -97,6 +100,7 @@
                     })
             },
             refresh(){
+            this.point=true
             axios.post('http://localhost:8080/mvn_base/joureturnSevlet?flag='+this.flag)
                     .then(response => {
                         console.log(response.data);
