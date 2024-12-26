@@ -37,7 +37,6 @@ public class PlaceServlet extends  HttpServlet{
 
         response.setContentType("text/html;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
-        System.out.println(place_json);
         response.getWriter().write(place_json);
         sqlSession.commit();
         sqlSession.close();
