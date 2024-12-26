@@ -55,8 +55,8 @@
             }
         },
         methods: {
-            outLogin() {
-                location.href = 'managerlog.html';
+            outlogin() {
+                location.href = 'login.html';
             },
             searchJournal() {
             axios.get('http://localhost:8080/mvn_base/managersearchbServlet?search='+encodeURIComponent(this.search))
